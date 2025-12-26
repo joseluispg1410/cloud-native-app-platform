@@ -81,3 +81,29 @@ jobs:
           helm upgrade --install demo-app ./helm/app \
             --set image.repository=$ACR_NAME.azurecr.io/$IMAGE_NAME \
             --set image.tag=$IMAGE_TAG
+
+      # -------------------------
+      # GET INGRESS EXTERNAL IP
+      # -------------------------
+      - name: Get Ingress External IP
+        id: get_ingress_ip
+        run: |
+          echo "Waiting for LoadBalancer IP..."
+          for i in {1..30}; do
+            IP=$(kubectl get svc ingress-nginx-controller \
+              -n ingress-nginx \
+              -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null)
+
+            if [ -n "$IP" ]; then
+              echo "Found IP: $IP"
+              echo "INGRESS_IP=$IP" >> $GITHUB_ENV
+              break
+            fi
+
+            echo "Waiting for external IP..."
+            sleep 10
+          done
+
+      - name: Show Application URL
+        run: |
+          echo "🚀 App available at: http://$INGRESS_IP"
