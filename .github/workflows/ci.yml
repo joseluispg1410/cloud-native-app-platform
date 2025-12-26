@@ -11,6 +11,10 @@ env:
   CLUSTER_NAME: aks-demo
   RESOURCE_GROUP: rg-aks-demo
   IMAGE_TAG: ${{ github.sha }}
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 jobs:
   build-and-deploy:
