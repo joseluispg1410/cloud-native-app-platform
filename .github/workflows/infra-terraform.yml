@@ -31,7 +31,8 @@ jobs:
       - name: Terraform Plan
         run: |
           cd terraform
-          terraform plan
+          terraform plan \
+          -var="acr_name=acrdemodemo123"
           
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
