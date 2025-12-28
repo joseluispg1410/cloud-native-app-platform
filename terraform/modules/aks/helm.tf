@@ -15,3 +15,26 @@ resource "helm_release" "ingress_nginx" {
 
   create_namespace = true
 }
+
+resource "helm_release" "monitoring" {
+  name       = "monitoring"
+  namespace  = "monitoring"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+  version    = "58.2.0"
+
+  create_namespace = true
+
+  values = [<<EOF
+grafana:
+  enabled: true
+
+prometheus:
+  prometheusSpec:
+    retention: 7d
+
+alertmanager:
+  enabled: true
+EOF
+  ]
+}
