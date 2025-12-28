@@ -104,6 +104,18 @@ jobs:
             sleep 10
           done
 
+            # -------------------------
+      # RUN LOAD TESTS (k6)
+      # -------------------------
+      - name: Run load tests (k6)
+        run: |
+          echo "Running load tests against http://$INGRESS_IP"
+          docker run --rm \
+            -e TARGET_URL=http://$INGRESS_IP \
+            -v ${{ github.workspace }}/load-tests:/scripts \
+            grafana/k6 run /scripts/k6-load.js
+
+
       - name: Show Application URL
         run: |
           echo "🚀 App available at: http://$INGRESS_IP"
