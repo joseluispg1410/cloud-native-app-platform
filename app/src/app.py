@@ -31,5 +31,12 @@ def qa():
         "message": "Dynamic QA environment ready"
     })
 
+@app.route("/load")
+def load():
+    total = 0
+    for _ in range(10_000_000):
+        total += 1
+    return {"status": "ok", "load": total}
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80)

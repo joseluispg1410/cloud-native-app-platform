@@ -111,7 +111,7 @@ jobs:
         run: |
           echo "Running load tests against http://$INGRESS_IP"
           docker run --rm \
-            -e TARGET_URL=http://$INGRESS_IP \
+            -e TARGET_URL=http://$INGRESS_IP/load \
             -v ${{ github.workspace }}/load-tests:/scripts \
             grafana/k6 run /scripts/k6-load.js
 
